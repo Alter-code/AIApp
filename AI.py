@@ -1,6 +1,5 @@
-import speech_recognition as sr
+import speech_recognition as sr 
 import sys
-
 # read filename from arguments
 filename = "aaa.wav"
 
