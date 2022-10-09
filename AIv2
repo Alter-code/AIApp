@@ -5,17 +5,14 @@
 from transformers import *
 import torch
 import soundfile as sf
-import librosa
-import os
 import torchaudio
 import pyaudio
 import wave
 
 
-
-#model_name = "facebook/wav2vec2-base-960h" # 360MB
+model_name = "facebook/wav2vec2-base-960h" # 360MB
 #model_name = "facebook/wav2vec2-large-960h-lv60-self" # 1.18GB
-model_name = "jonatasgrosman/wav2vec2-xls-r-1b-polish"
+#model_name = "jonatasgrosman/wav2vec2-xls-r-1b-polish"
 
 processor = Wav2Vec2Processor.from_pretrained(model_name)
 model = Wav2Vec2ForCTC.from_pretrained(model_name)
@@ -80,16 +77,6 @@ def get_transcription(audio_path):
   transcription = processor.decode(predicted_ids[0])
   return transcription.lower()
   
-
-
-get_transcription(audio_url)
-f = open("text.txt",'a')
-f.write(str(transcription.lower()) + '\n')
-f.close()
-
-
-
-
 def record():
 
   # the file name output you want to record into
@@ -140,8 +127,15 @@ def record():
   wf.close()
 
 
-  get_transcription("recorded.wav")
+
+
+
+# mian
 
 record()
+get_transcription(audio_url)
+f = open("text.txt",'a')
+f.write(str(transcription.lower()) + '\n')
+f.close()
 
 
