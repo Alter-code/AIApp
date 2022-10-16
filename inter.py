@@ -8,19 +8,13 @@ root = Tk()
 root.title('Ai4Youth')
 root.iconbitmap('text.txt')
 root.geometry("1000x1650")
-
-# Read only r  
-# Read and Write r+  (beginning of file)
-# Write Only w   (over-written)
-# Write and Read w+  (over written)
-# Append Only a  (end of file)
-# Append and Read a+  (end of file)
-
+ffile = 'text.txt'
 
 def open_txt():
     
-	text_file = "text.txt" #filedialog.askopenfilename(initialdir="text.txt", title="Open Text File", filetypes=(("Text Files", "*.txt"), ))
+	text_file = filedialog.askopenfilename(initialdir="text.txt", title="Open Text File", filetypes=(("Text Files", "*.txt"), ))
 	name = text_file
+	ffile = name
 	name = name.replace("text.txt", "")
 	name = name.replace(".txt", "")
 	my_text.delete("1.0", "end")
@@ -38,41 +32,29 @@ def save_txt():
 	text_file = open(text_file, 'w')
 	text_file.write(my_text.get(1.0, END))
 
-def add_image():
-	# Add image
-	global my_image
-	my_image = PhotoImage(file="images/profile.png")
-	position = my_text.index(INSERT)
-	my_text.image_create(position, image=my_image)
-
-	my_label.config(text=position)
 
 def select():
 	selected = my_text.selection_get()
 	my_label.config(text=selected)
 
-def bolder():
+def talk():
     record()
-    f = open("text.txt",'a')
+    f = open(ffile,'a')
     f.write(str(transcript()) + '\n')
     f.close()
     
-    open_txt()
-    """
-    bold_font = font.Font(my_text, my_text.cget("font"))
-	bold_font.configure(weight="bold")
+    text_file = ffile
+    name = text_file
+    name = name.replace("text.txt", "")
+    name = name.replace(".txt", "")
+    my_text.delete("1.0", "end")
+    text_file = open(text_file, 'r')
+    stuff = text_file.read()
 
-	my_text.tag_configure("bold", font=bold_font)
+    my_text.insert(END, stuff)
+    text_file.close()
 
-	current_tags = my_text.tag_names("sel.first")
-
-	if "bold" in current_tags:
-		my_text.tag_remove("bold", "sel.first", "sel.last" )
-	else:
-		my_text.tag_add("bold", "sel.first", "sel.last" )
-    """
-	
-
+    root.title(f'{name} Beauty text editor')
 
 def italics_it():
 	italics_font = font.Font(my_text, my_text.cget("font"))
@@ -107,14 +89,12 @@ open_button.pack(pady=1)
 save_button = Button(root, text="Save File", command=save_txt)
 save_button.pack(pady=1)
 
-image_button = Button(root, text="Add Image", command=add_image)
-image_button.pack(pady=1)
 
 select_button = Button(root, text="Select Text", command=select)
 select_button.pack(pady=1)
 
-bold_button = Button(root, text="Talk to me", command=bolder)
-bold_button.pack(pady=1)
+talk_button = Button(root, text="Talk to me", command=talk)
+talk_button.pack(pady=1)
 
 italics_button = Button(root, text="Italics", command=italics_it)
 italics_button.pack(pady=1)

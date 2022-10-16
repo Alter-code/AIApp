@@ -10,16 +10,16 @@ import wave
 import keyboard
 from tkinter import *
 
-model_name = "facebook/wav2vec2-base-960h" # 360MB
-#model_name = "facebook/wav2vec2-large-960h-lv60-self" # 1.18GB
-#model_name = "jonatasgrosman/wav2vec2-xls-r-1b-polish"
+
+# model_name = "facebook/wav2vec2-base-960h" # 360MB
+model_name = "facebook/wav2vec2-large-960h-lv60-self" # 1.18GB
+# model_name = "jonatasgrosman/wav2vec2-xls-r-1b-polish"
 audio_url = "recorded.wav"
 processor = Wav2Vec2Processor.from_pretrained(model_name)
 model = Wav2Vec2ForCTC.from_pretrained(model_name)
 
 
 def transcript():
-  # load our wav file
   speech, sr = torchaudio.load(audio_url)
   speech = speech.squeeze()
   sr, speech.shape
@@ -51,12 +51,9 @@ def record():
 
   while(True):
     data = stream.read(chunk)
-    #stream.write(data)
     frames.append(data)
-    if keyboard.is_pressed('q'):  # if key 'q' is pressed 
-      print('You Pressed A Key!')
-      break  # finishing the loop
-  #for i in range(int(sample_rate / chunk * record_seconds)):
+    if keyboard.is_pressed('q'):  
+      break  
       
 
   print("Finished recording.")
